@@ -26,11 +26,11 @@ public class BookingService {
             bookData = setStartedState(uuid);
         } catch (OptimisticLockingFailureException | StaleStateException e) {
             log.info("{} unable to acquire lock {} {} ", Thread.currentThread().getName(), "", e.getMessage());
-        } catch (Exception e) {
-            log.info("{}  failed the {}", Thread.currentThread().getName(), e.getMessage());
-        }
-        if (bookData == null) {
+        } catch (NoJobException e){
+            log.error("No jobs left in queue");
             return;
+        }catch (Exception e) {
+            log.info("{}  failed the {}", Thread.currentThread().getName(), e.getMessage());
         }
         log.info("{}  won and performing the  {} ", Thread.currentThread().getName(), bookData.getJobName());
         Thread.sleep(1000);
