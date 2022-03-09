@@ -24,6 +24,6 @@ public class BookData implements Serializable {
     private String jobName;
     private  processing_status status = processing_status.INIT;
     @Version
-    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
     private Long version;
 }

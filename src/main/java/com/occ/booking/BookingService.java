@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 @Slf4j
@@ -35,7 +36,7 @@ public class BookingService {
         }
         //2. Do the actual Job
         log.info("{}  won and performing the  {} ", Thread.currentThread().getName(), bookData.getJobName());
-        Thread.sleep(1000);
+        Thread.sleep(new Random().nextInt(9001) + 1000);
 
         //3. Mark Job as COMPLETED
         try {
