@@ -46,26 +46,23 @@ public class OCCBookingApplication implements CommandLineRunner {
         @Autowired
         BookingService bookingService;
 
+        Runnable runnable = () -> {
+            UUID uuid = UUID.randomUUID();
+            try {
+                Thread.sleep(new Random().nextInt(10));
+                bookingService.performJob(uuid);
+            } catch (Exception e) {
+                log.error("{} failed.", Thread.currentThread().getName());
+            }
+        };
+
         @GetMapping("/start")
         public ResponseEntity<?> testMethod() {
-
-            ExecutorService executorService = Executors.newFixedThreadPool(20, new CustomizableThreadFactory("alpha-"));
-
-            for (int i = 0; i < 5000; i++)
-                executorService.submit(() -> {
-                    UUID uuid = UUID.randomUUID();
-                    try {
-                        Thread.sleep(new Random().nextInt(10));
-                        bookingService.performJob(uuid);
-                        log.info("{} {} completed.", Thread.currentThread().getName(), uuid.toString());
-                    } catch (Exception e) {
-                        log.error("{}  {} failed.", Thread.currentThread().getName(), uuid.toString());
-                    }
-                });
+            ExecutorService executorService = Executors.newFixedThreadPool(5, new CustomizableThreadFactory("alpha-"));
+            for (int i = 0; i < 100; i++) {
+                executorService.submit(runnable);
+            }
             return ResponseEntity.ok("ready!");
         }
-
-
     }
-
 }
