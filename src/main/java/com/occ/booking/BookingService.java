@@ -22,22 +22,25 @@ public class BookingService {
 
     public void performJob(UUID uuid) throws InterruptedException {
         BookData bookData = null, bookData1 = null;
+        //1. Read first available Job mark as STARTED
         try {
             bookData = setStartedState(uuid);
         } catch (OptimisticLockingFailureException | StaleStateException e) {
             log.info("{} unable to acquire lock {} {} ", Thread.currentThread().getName(), "", e.getMessage());
-        } catch (NoJobException e){
+        } catch (NoJobException e) {
             log.error("No jobs left in queue");
             return;
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.info("{}  failed the {}", Thread.currentThread().getName(), e.getMessage());
         }
+        //2. Do the actual Job
         log.info("{}  won and performing the  {} ", Thread.currentThread().getName(), bookData.getJobName());
         Thread.sleep(1000);
 
+        //3. Mark Job as COMPLETED
         try {
             bookData1 = setCompleteState(bookData);
-            log.info("{} {} Completed.", Thread.currentThread().getName(),bookData.getJobName());
+            log.info("{} {} Completed.", Thread.currentThread().getName(), bookData.getJobName());
         } catch (Exception e) {
             log.info("{}  failed the {} {}", Thread.currentThread().getName(), bookData1.getJobName(), e.getMessage());
         }
