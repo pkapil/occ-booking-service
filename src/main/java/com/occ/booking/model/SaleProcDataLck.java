@@ -1,4 +1,4 @@
-package com.occ.booking;
+package com.occ.booking.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,14 +14,14 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BookData implements Serializable {
+public class SaleProcDataLck implements Serializable {
     public enum processing_status{ INIT,STARTED,COMPLETED};
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
     private Instant timeStamp;
     private String performedByThreadName;
-    private String jobName;
+    private String storeName;
     private  processing_status status = processing_status.INIT;
     @Version
     @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
