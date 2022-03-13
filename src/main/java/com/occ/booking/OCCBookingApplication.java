@@ -53,7 +53,7 @@ public class OCCBookingApplication implements CommandLineRunner {
         for (int i = 0; i < appProp.getSaExtrDataSize(); i++)
             srcDataRepository.save(SrcData.builder()
                     .timeStamp(Instant.now())
-                    .binary(new String("TEST").getBytes(StandardCharsets.UTF_8))
+                    .dataByteArray(new String("TEST").getBytes(StandardCharsets.UTF_8))
                     .build());
 
     }

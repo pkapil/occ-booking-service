@@ -17,7 +17,7 @@ import java.time.Instant;
 public class SaleProcDataLck implements Serializable {
     public enum processing_status{ INIT,STARTED,COMPLETED};
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private Instant timeStamp;
     private String performedByThreadName;

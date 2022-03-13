@@ -17,8 +17,10 @@ import java.util.UUID;
 @Builder
 public class SrcData implements Serializable {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long id;
     private UUID uuid;
     private Instant timeStamp;
-    private byte[] binary;
+    @Lob
+    private byte[] dataByteArray;
 }

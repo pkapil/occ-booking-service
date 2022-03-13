@@ -22,7 +22,7 @@ import java.time.Instant;
 public class SaleExtrDataLck implements Serializable {
     public enum processing_status{ INIT,STARTED,COMPLETED};
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private Instant timeStamp;
     private Long startRowNo;

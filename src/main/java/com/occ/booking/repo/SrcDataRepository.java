@@ -8,11 +8,12 @@ import java.util.List;
 
 public interface SrcDataRepository extends CrudRepository<SrcData,Long> {
     @Query(
-            value = "SELECT * FROM SRC_DATA WHERE  ROWNUM >=:rowNum1 and ROWNUM <= :rowNum2",
+            value = "select * from (select row_number() over() as rownum,* from src_data sd)  as bb\n" +
+                    "where bb.rownum >= :rowNum1 and bb.rownum <= :rowNum2",
             nativeQuery = true)
 public List<SrcData> getRowsBetweenRowNum1AndRowNum2(Long rowNum1,Long rowNum2);
     @Query(
-            value = "SELECT MAX(ROWNUM) FROM SRC_DATA",
+            value = "select max(rownum ) from (select row_number() over() as rownum,* from src_data sd) as bb",
             nativeQuery = true)
     public Long getMaxRowNumber();
 }
